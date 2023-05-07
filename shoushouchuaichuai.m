@@ -248,10 +248,10 @@ for i = 1:length(subdir1)-2
         number = number+1;
         path1 = fullfile(stru1(j).folder, stru1(j).name);
         [t1, record1, hr1] = fget_sac(path1);
-        station1 = hr.station.kstnm;
+        station1 = hr1.station.kstnm;
         station1 = strrep(station1,' ','');
-        time1 = strcat(num2str(hr.event.nzyear),'年',num2str(hr.event.nzjday),'日');
-        direction1 = hr.stations.kcmpnm;
+        time1 = strcat(num2str(hr1.event.nzyear),'年',num2str(hr1.event.nzjday),'日');
+        direction1 = hr1.stations.kcmpnm;
         direction1 = strrep(direction1,' ','');
         data1.station = station1;
         data1.time = time1;
@@ -324,11 +324,11 @@ for i = 1:length(subdir1)-2
             data3.direction = direction3;
             timehistory3 = cell(12,1);
             % 加速度使用速度事件选取的索引来截出地震事件，保证加速度与速度为同一时间下。
-            for i =1:12
-                if ~isequal(index(i,:),[0,0])
-                    timehistory3{i} = record3(index(i,1):index(i,2));
+            for k =1:12
+                if ~isequal(index(k,:),[0,0])
+                    timehistory3{k} = record3(index(k,1):index(k,2));
                 else 
-                    timehistory3{i} = NaN;
+                    timehistory3{k} = NaN;
                 end
             end
             data3.timehistory = timehistory3;
@@ -339,14 +339,14 @@ for i = 1:length(subdir1)-2
         end
     
     end
-    fprintf('The %d st turn has ended. And the velosity data is:',i);
-    DATA1
+    % fprintf('The %d st turn has ended. And the velosity data is:',i);
+    % DATA1
     
     DATA_VEL(i).data = DATA1;
     DATA_DISP(i).data = DATA2;
     DATA_ACC(i).data = DATA3;
-    fprintf('The velosity data stored is:');
-    DATA_VEL(i)
+    % fprintf('The velosity data stored is:');
+    % DATA_VEL(i)
 end
 %% 滤波处理尝试
 % 读入数据，假设数据为x，采样频率为fs
