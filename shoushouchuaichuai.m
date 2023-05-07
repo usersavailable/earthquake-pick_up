@@ -217,7 +217,7 @@ subdir3 = dir(maindir3);
 DATA_VEL = repmat(struct(), 1, length(subdir1)-2);
 DATA_DISP = repmat(struct(), 1, length(subdir2)-2);
 DATA_ACC = repmat(struct(), 1, length(subdir3)-2);
-for i = 1:length(subdir1)-2
+for i = 15:length(subdir1)-2
     % 读取速度文件 
     subdirpath1 = fullfile(maindir1, subdir1(i+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
     stru1 = dir(subdirpath1);

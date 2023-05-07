@@ -106,7 +106,7 @@ while r<length(data)-(window-1)  % 判断循环是否已经进行到事件结束
         if index_end - index_start > 1000000
             error('地震时长过长！')
         end
-        
+
         index(k,:) = [index_start,index_end];
         new_i = index_end;
         
