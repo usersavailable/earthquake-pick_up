@@ -271,11 +271,11 @@ for i = 1:length(subdir1)-2
         % timehistory = cell(4,1);  % 5.6.17:13
         timehistory1 = cell(12,1);
         % for i =1:4 5.6.17:13
-        for i =1:12
-            if ~isequal(index(i,:),[0,0])
-                timehistory1{i} = record1(index(i,1):index(i,2));
+        for k =1:12
+            if ~isequal(index(k,:),[0,0])
+                timehistory1{k} = record1(index(k,1):index(k,2));
             else 
-                timehistory1{i} = NaN;
+                timehistory1{k} = NaN;
             end
         end
         data1.timehistory = timehistory1;
