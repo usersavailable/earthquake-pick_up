@@ -20,7 +20,8 @@ while r<length(data)-(window-1)  % 判断循环是否已经进行到事件结束
     fprintf('Now the detector starts at %d\n',new_i);
     for n =r:length(data)-(window-1)
         if data(n) > step1
-            index_start = n-200*100;  % 事件开始时间为第一次达到触发阈值的时间倒推200s
+            % index_start = n-200*100;  % 事件开始时间为第一次达到触发阈值的时间倒推200s
+            index_start = n-300*100;  % 事件开始时间为第一次达到触发阈值的时间倒推300s % 2023.5.7.22:56
             fprintf('The %d st event is detected, for the timehistory is bigger than %f | Its starting index is %d\n',k,step1, index_start);
             
             break

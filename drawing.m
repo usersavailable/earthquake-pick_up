@@ -9,5 +9,6 @@ for i =1:3
 end
 
 %%
-for i =1:15
-    for j =1:length
+data = DATA_VEL(15).data(1).data.timehistory;
+for k =1:nnz(data)
+    figure()

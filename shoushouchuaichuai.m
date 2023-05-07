@@ -217,7 +217,7 @@ subdir3 = dir(maindir3);
 DATA_VEL = repmat(struct(), 1, length(subdir1)-2);
 DATA_DISP = repmat(struct(), 1, length(subdir2)-2);
 DATA_ACC = repmat(struct(), 1, length(subdir3)-2);
-for i = 1:length(subdir1)-2
+for i = 1:1  % length(subdir1)-2
     % 读取速度文件 
     subdirpath1 = fullfile(maindir1, subdir1(i+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
     stru1 = dir(subdirpath1);
@@ -267,7 +267,8 @@ for i = 1:length(subdir1)-2
         data1.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
     
         % 选取地震发生时段的时程
-        index = period_cut_ver2_tidy(record1,300);
+        % index = period_cut_ver2_tidy(record1,300);
+        index = period_cut_ver2_tidy(record1,450);  % 将时窗改为450s  20235.7.22：57
         % timehistory = cell(4,1);  % 5.6.17:13
         timehistory1 = cell(12,1);
         % for i =1:4 5.6.17:13
