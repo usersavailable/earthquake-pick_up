@@ -339,9 +339,14 @@ for i = 1:length(subdir1)-2
         end
     
     end
+    fprintf('The %d st turn has ended. And the velosity data is:',i);
+    DATA1
+    
     DATA_VEL(i).data = DATA1;
     DATA_DISP(i).data = DATA2;
     DATA_ACC(i).data = DATA3;
+    fprintf('The velosity data stored is:');
+    DATA_VEL(i)
 end
 %% 滤波处理尝试
 % 读入数据，假设数据为x，采样频率为fs
