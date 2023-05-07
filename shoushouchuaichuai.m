@@ -207,132 +207,141 @@ end
 
 save('Velocity_periodcutting2.mat',"DATA1","DATA2","DATA3","DATA4","DATA5","DATA6","DATA7","DATA8","DATA9","DATA10","DATA11","DATA12","DATA13","DATA14","DATA15");
 %% 加速度、速度、位移共同剪切
-% 读取2014年地震速度、位移、加速度数据的SAC文件
-% 读取速度文件
+
 maindir1 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-vel';
-subdir1 = dir(maindir1);
-subdirpath1 = fullfile(maindir1, subdir1(3).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
-stru1 = dir(subdirpath1);
-DATA1 = struct();
-% 读取位移文件
 maindir2 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-disp';
-subdir2 = dir(maindir2);
-subdirpath2 = fullfile(maindir2, subdir2(3).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
-stru2 = dir(subdirpath2);
-DATA2 = struct();
-% 读取加速度文件
 maindir3 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG - acc';
+subdir1 = dir(maindir1);
+subdir2 = dir(maindir2);
 subdir3 = dir(maindir3);
-subdirpath3 = fullfile(maindir3, subdir3(3).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
-stru3 = dir(subdirpath3);
-DATA3 = struct();
-number = 0;
-% 
-% if ~strcmp(stru2.name, stru1.name)
-%     error('位移文件与速度文件不匹配')
-% end
-% 
-% if ~strcmp(stru3.name, stru1.name)
-%     error('加速度文件与速度文件不匹配')
-% end
-
-for j = 1:length(stru1)
-
-    % 对速度记录进行处理--------------------------------------------------
-    data1 = struct();
-    number = number+1;
-    path1 = fullfile(stru1(j).folder, stru1(j).name);
-    [t1, record1, hr1] = fget_sac(path1);
-    station1 = hr.station.kstnm;
-    station1 = strrep(station1,' ','');
-    time1 = strcat(num2str(hr.event.nzyear),'年',num2str(hr.event.nzjday),'日');
-    direction1 = hr.stations.kcmpnm;
-    direction1 = strrep(direction1,' ','');
-    data1.station = station1;
-    data1.time = time1;
-    data1.direction = direction1;
-
-
-    % 通过文件位置判断是否宕机，前12个宕机，其余未宕机 5.6.20:30
-    if j <= 12
-        dangji = 1;
-    else 
-        dangji = 0;
-    end
-    data1.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
-
-    % 选取地震发生时段的时程
-    index = period_cut_ver2_tidy(record1,300);
-    % timehistory = cell(4,1);  % 5.6.17:13
-    timehistory1 = cell(12,1);
-    % for i =1:4 5.6.17:13
-    for i =1:12
-        if ~isequal(index(i,:),[0,0])
-            timehistory1{i} = record1(index(i,1):index(i,2));
+DATA_VEL = repmat(struct(), 1, length(subdir1)-2);
+DATA_DISP = repmat(struct(), 1, length(subdir2)-2);
+DATA_ACC = repmat(struct(), 1, length(subdir3)-2);
+for i = 1:length(subdir1)-2
+    % 读取速度文件 
+    subdirpath1 = fullfile(maindir1, subdir1(i+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
+    stru1 = dir(subdirpath1);
+    DATA1 = struct();
+    % 读取位移文件
+    subdir2 = dir(maindir2);
+    subdirpath2 = fullfile(maindir2, subdir2(i+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
+    stru2 = dir(subdirpath2);
+    DATA2 = struct();
+    % 读取加速度文件
+    subdirpath3 = fullfile(maindir3, subdir3(i+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
+    stru3 = dir(subdirpath3);
+    DATA3 = struct();
+    number = 0;
+    % 
+    % if ~strcmp(stru2.name, stru1.name)
+    %     error('位移文件与速度文件不匹配')
+    % end
+    % 
+    % if ~strcmp(stru3.name, stru1.name)
+    %     error('加速度文件与速度文件不匹配')
+    % end
+    
+    for j = 1:length(stru1)
+    
+        % 对速度记录进行处理--------------------------------------------------
+        data1 = struct();
+        number = number+1;
+        path1 = fullfile(stru1(j).folder, stru1(j).name);
+        [t1, record1, hr1] = fget_sac(path1);
+        station1 = hr.station.kstnm;
+        station1 = strrep(station1,' ','');
+        time1 = strcat(num2str(hr.event.nzyear),'年',num2str(hr.event.nzjday),'日');
+        direction1 = hr.stations.kcmpnm;
+        direction1 = strrep(direction1,' ','');
+        data1.station = station1;
+        data1.time = time1;
+        data1.direction = direction1;
+    
+    
+        % 通过文件位置判断是否宕机，前12个宕机，其余未宕机 5.6.20:30
+        if j <= 12
+            dangji = 1;
         else 
-            timehistory1{i} = NaN;
+            dangji = 0;
         end
-    end
-    data1.timehistory = timehistory1;
-
-    DATA1(j).data = data1;
-
-    % 对位移记录进行处理--------------------------------------------------------
-    data2 = struct();
-    number = number+1;
-    path2 = fullfile(stru2(j).folder, stru2(j).name);
-    [t2, record2, hr2] = fget_sac(path2);
-    if stru2(j).name == stru1(j).name
-        station2 = station1;
-        time2 = time1;
-        direction2 = direction1;
-        data2.station = station2;
-        data2.time = time2;
-        data2.direction = direction2;
-        timehistory2 = cell(12,1);
-        % 位移使用速度事件选取的索引来截出地震事件，保证位移与速度为同一时间下。
+        data1.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
+    
+        % 选取地震发生时段的时程
+        index = period_cut_ver2_tidy(record1,300);
+        % timehistory = cell(4,1);  % 5.6.17:13
+        timehistory1 = cell(12,1);
+        % for i =1:4 5.6.17:13
         for i =1:12
             if ~isequal(index(i,:),[0,0])
-                timehistory2{i} = record2(index(i,1):index(i,2));
+                timehistory1{i} = record1(index(i,1):index(i,2));
             else 
-                timehistory2{i} = NaN;
+                timehistory1{i} = NaN;
             end
         end
-        data2.timehistory = timehistory2;
-        data2.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
-        DATA2(j).data = data2;
-    else 
-        error('位移文件与速度文件不匹配')
-    end
-
-    % 对加速度记录进行处理--------------------------------------------------------
-    data3 = struct();
-    number = number+1;
-    path3 = fullfile(stru3(j).folder, stru3(j).name);
-    [t3, record3, hr3] = fget_sac(path3);
-    if stru3(j).name == stru1(j).name
-        station3 = station1;
-        time3 = time1;
-        direction3 = direction1;
-        data3.station = station3;
-        data3.time = time3;
-        data3.direction = direction3;
-        timehistory3 = cell(12,1);
-        % 加速度使用速度事件选取的索引来截出地震事件，保证加速度与速度为同一时间下。
-        for i =1:12
-            if ~isequal(index(i,:),[0,0])
-                timehistory3{i} = record3(index(i,1):index(i,2));
-            else 
-                timehistory3{i} = NaN;
+        data1.timehistory = timehistory1;
+    
+        DATA1(j).data = data1;
+    
+        % 对位移记录进行处理--------------------------------------------------------
+        data2 = struct();
+        number = number+1;
+        path2 = fullfile(stru2(j).folder, stru2(j).name);
+        [t2, record2, hr2] = fget_sac(path2);
+        if stru2(j).name == stru1(j).name
+            station2 = station1;
+            time2 = time1;
+            direction2 = direction1;
+            data2.station = station2;
+            data2.time = time2;
+            data2.direction = direction2;
+            timehistory2 = cell(12,1);
+            % 位移使用速度事件选取的索引来截出地震事件，保证位移与速度为同一时间下。
+            for k =1:12
+                if ~isequal(index(k,:),[0,0])
+                    timehistory2{k} = record2(index(k,1):index(k,2));
+                else 
+                    timehistory2{k} = NaN;
+                end
             end
+            data2.timehistory = timehistory2;
+            data2.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
+            DATA2(j).data = data2;
+        else 
+            error('位移文件与速度文件不匹配')
         end
-        data3.timehistory = timehistory3;
-        data3.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
-        DATA3(j).data = data3;
-    else 
-        error('加速度文件与速度文件不匹配')
+    
+        % 对加速度记录进行处理--------------------------------------------------------
+        data3 = struct();
+        number = number+1;
+        path3 = fullfile(stru3(j).folder, stru3(j).name);
+        [t3, record3, hr3] = fget_sac(path3);
+        if stru3(j).name == stru1(j).name
+            station3 = station1;
+            time3 = time1;
+            direction3 = direction1;
+            data3.station = station3;
+            data3.time = time3;
+            data3.direction = direction3;
+            timehistory3 = cell(12,1);
+            % 加速度使用速度事件选取的索引来截出地震事件，保证加速度与速度为同一时间下。
+            for i =1:12
+                if ~isequal(index(i,:),[0,0])
+                    timehistory3{i} = record3(index(i,1):index(i,2));
+                else 
+                    timehistory3{i} = NaN;
+                end
+            end
+            data3.timehistory = timehistory3;
+            data3.status = dangji;  % 1代表宕机，0代表未宕机 5.6.20：30
+            DATA3(j).data = data3;
+        else 
+            error('加速度文件与速度文件不匹配')
+        end
+    
     end
-
+    DATA_VEL(i).data = DATA1;
+    DATA_DISP(i).data = DATA2;
+    DATA_ACC(i).data = DATA3;
 end
 %% 滤波处理尝试
 % 读入数据，假设数据为x，采样频率为fs

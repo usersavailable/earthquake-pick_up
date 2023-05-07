@@ -11,7 +11,7 @@ window = window(1);
 m = max(data);
 % step1 = m/25; % 5.6.17:32
 step1 = m/20;
-step2 = m/50;
+step2 = m/60;
 
 while r<length(data)-(window-1)  % 判断循环是否已经进行到事件结束
     fprintf('The %d st turn of searching starting at %d......\n',k,r);
