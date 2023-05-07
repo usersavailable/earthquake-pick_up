@@ -10,8 +10,8 @@ window = window(1);
 % 计算触发阈值和结束阈值
 m = max(data);
 % step1 = m/25; % 5.6.17:32
-step1 = m/20;
-step2 = m/50;
+step1 = m/40;
+step2 = m/200;
 
 while r<length(data)-(window-1)  % 判断循环是否已经进行到事件结束
     fprintf('The %d st turn of searching starting at %d......\n',k,r);
@@ -102,6 +102,11 @@ while r<length(data)-(window-1)  % 判断循环是否已经进行到事件结束
             index_end = index_start +60000;
         end
 
+        
+        if index_end - index_start > 1000000
+            error('地震时长过长！')
+        end
+        
         index(k,:) = [index_start,index_end];
         new_i = index_end;
         
