@@ -172,131 +172,212 @@ title('dataZ')
 xlabel('时间/0.01s')
 ylabel('速度/nm/s')
 
-%% 频谱分析
-%% 两个频率分别为15HZ 和 20HZ 的正弦信号[1]
-Fs=100;%采样率
+%% E向LANT
+% clear
+% clc
+% clf
+ 
+Fs = 100;               %采样频率，即1s采多少个点
+x = dataE_LANT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';  %采样点
 
-tE = 0:1/Fs:length(dataE_ZOZT)/Fs-1/Fs; %采样率为100的时间序列
+                                                  
+figure(1)
+subplot(411)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+ 
+ 
+ 
+L = length(x);
+y = fft(x);
+f = (0:L-1)*Fs/L;
+y = y/L;
+ 
+subplot(412)
+plot(f,abs(y))
+fshift = (-L/2:L/2-1)*Fs/L;
+yshift = fftshift(y);
+subplot(413)
+plot(fshift,abs(yshift))
+ 
+P2 = abs(fft(x)/L);
+P1 = P2(1:L/2);
+P1(2:end-1) = 2*P1(2:end-1);
+fnew = (0:(L/2-1))*Fs/L;
+subplot(414)
+plot(fnew,P1)
+xlabel('频率/s')
+ylabel('频域幅值/nm/s')
+ 
+ 
+ 
+ 
+figure(2)
+set(gca,'FontSize',20)
+subplot(211)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+title('dataE LANT')
+subplot(212)
+plot(fnew,P1)
+% stem(fnew,P1)
+xlabel('频率/Hz')
+xlim([0,0.5])
+ylabel('频域幅值/nm/s')
+title('dataE LANT')
+%% E向MEIX
+Fs = 100;               %采样频率，即1s采多少个点
+x = dataE_MEIX;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';  %采样点
+
+                                                  
+figure(1)
+subplot(411)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+ 
+ 
+ 
+L = length(x);
+y = fft(x);
+f = (0:L-1)*Fs/L;
+y = y/L;
+ 
+subplot(412)
+plot(f,abs(y))
+fshift = (-L/2:L/2-1)*Fs/L;
+yshift = fftshift(y);
+subplot(413)
+plot(fshift,abs(yshift))
+ 
+P2 = abs(fft(x)/L);
+P1 = P2(1:L/2);
+P1(2:end-1) = 2*P1(2:end-1);
+fnew = (0:(L/2-1))*Fs/L;
+subplot(414)
+plot(fnew,P1)
+xlabel('频率/s')
+ylabel('频域幅值/nm/s')
+ 
+ 
+ 
+ 
+figure(2)
+set(gca,'FontSize',20)
+subplot(211)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+title('dataE MEIX')
+subplot(212)
+plot(fnew,P1)
+% stem(fnew,P1)
+xlabel('频率/Hz')
+xlim([0,0.5])
+ylabel('频域幅值/nm/s')
+title('dataE MEIX')
+%% E向XAN站
+Fs = 100;               %采样频率，即1s采多少个点
+x = dataE_XAN;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';  %采样点
+
+                                                  
+figure(1)
+subplot(411)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+ 
+ 
+ 
+L = length(x);
+y = fft(x);
+f = (0:L-1)*Fs/L;
+y = y/L;
+ 
+subplot(412)
+plot(f,abs(y))
+fshift = (-L/2:L/2-1)*Fs/L;
+yshift = fftshift(y);
+subplot(413)
+plot(fshift,abs(yshift))
+ 
+P2 = abs(fft(x)/L);
+P1 = P2(1:L/2);
+P1(2:end-1) = 2*P1(2:end-1);
+fnew = (0:(L/2-1))*Fs/L;
+subplot(414)
+plot(fnew,P1)
+xlabel('频率/s')
+ylabel('频域幅值/nm/s')
+ 
+ 
+ 
+ 
+figure(2)
+set(gca,'FontSize',20)
+subplot(211)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+title('dataE XAN')
+subplot(212)
+plot(fnew,P1)
+% stem(fnew,P1)
+xlabel('频率/Hz')
+ylabel('频域幅值/nm/s')
+xlim([0,0.5])
+title('dataE XAN')
+%% E向ZOZT站
+Fs = 100;               %采样频率，即1s采多少个点
 x = dataE_ZOZT;
-% figure;
-% plot(tE,x);
-y = fft(x); 
-
-%将横坐标转化，显示为频率f= n*(fs/N)
-f = (0:length(y)-1)*Fs/length(y);
-% figure;
-% plot(f,abs(y));
-% title('Magnitude');
-%该变换还会生成尖峰的镜像副本，该副本对应于信号的负频率。
-
-%为了更好地以可视化方式呈现周期性，可以使用 fftshift 函数对变换执行以零为中心的循环平移。
-n = length(x);                         
-fshift = (-n/2:n/2-1)*(Fs/n);
+t = (0:1/Fs:length(x)/Fs-1/Fs)';  %采样点
+                                                
+figure(1)
+subplot(411)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
+  
+L = length(x);
+y = fft(x);
+f = (0:L-1)*Fs/L;
+y = y/L;
+ 
+subplot(412)
+plot(f,abs(y))
+fshift = (-L/2:L/2-1)*Fs/L;
 yshift = fftshift(y);
-frequncyE_ZOZT = fshift;
-magnitudeE_ZOZT = yshift;
-% figure;
-% plot(fshift,abs(yshift));
-% xlabel('频率')
-% title('dataE ZOZT')
-% set(gca,'FontSize',20)
+subplot(413)
+plot(fshift,abs(yshift))
 
-%FFT的结果所要展现的真实的频谱幅值[2]
-realy=2*abs(y(1:n/2+1))/n;
-realf=(0:n/2)*(Fs/n);
-figure;
-plot(realf,realy);
-
-frequncyE_ZOZT = realf;
-magnitudeE_ZOZT = realy;
-
-xlabel('频率')
+P2 = abs(fft(x)/L);
+P1 = P2(1:L/2);
+P1(2:end-1) = 2*P1(2:end-1);
+fnew = (0:(L/2-1))*Fs/L;
+subplot(414)
+plot(fnew,P1)
+xlabel('频率/s')
+ylabel('频域幅值/nm/s')
+ 
+figure(2)
+set(gca,'FontSize',20)
+subplot(211)
+plot(t,x)
+xlabel('时间/s')
+ylabel('时域幅值/nm/s')
 title('dataE ZOZT')
-set(gca,'FontSize',20)
-%%
-%% 两个频率分别为15HZ 和 20HZ 的正弦信号[1]
-Fs=100;%采样率
-
-tN = 0:1/Fs:length(dataN_ZOZT)/Fs-1/Fs; %采样率为100的时间序列
-x = dataN_ZOZT;
-
-y = fft(x); 
-
-f = (0:length(y)-1)*Fs/length(y);
-
-n = length(x);                         
-fshift = (-n/2:n/2-1)*(Fs/n);
-yshift = fftshift(y);
-frequncyN_ZOZT = fshift;
-magnitudeN_ZOZT = yshift;
-
-% figure;
-% plot(fshift,abs(yshift));
-% xlabel('频率')
-% title('dataN ZOZT')
-% set(gca,'FontSize',20)
-
-realy=2*abs(y(1:n/2+1))/n;
-realf=(0:n/2)*(Fs/n);
-figure;
-plot(realf,realy);
-
-frequncyN_ZOZT = realf;
-magnitudeN_ZOZT = realy;
-
-xlabel('频率')
-title('dataN ZOZT')
-set(gca,'FontSize',20)
-%%
-%% 两个频率分别为15HZ 和 20HZ 的正弦信号[1]
-Fs=100;%采样率
-
-tN = 0:1/Fs:length(dataN_LANT)/Fs-1/Fs; %采样率为100的时间序列
-x = dataN_LANT;
-
-y = fft(x); 
-
-f = (0:length(y)-1)*Fs/length(y);
-
-n = length(x);                         
-fshift = (-n/2:n/2-1)*(Fs/n);
-yshift = fftshift(y);
-frequncyN_LANT = fshift;
-magnitudeN_LANT = yshift;
-
-% figure;
-% plot(fshift,abs(yshift));
-% xlabel('频率')
-% title('dataN LANT')
-% set(gca,'FontSize',20)
-
-realy=2*abs(y(1:n/2+1))/n;
-realf=(0:n/2)*(Fs/n);
-figure;
-plot(realf,realy);
-
-frequncyZ_ZOZT = realf;
-magnitudeZ_ZOZT = realy;
-
-xlabel('频率')
-title('dataZ ZOZT')
-set(gca,'FontSize',20)
-%%
-figure;
-set(gca,'FontSize',20)
-subplot(3,1,1)
-plot(frequncyE_ZOZT,magnitudeE_ZOZT);
-xlabel('频率')
+subplot(212)
+plot(fnew,P1)
+% stem(fnew,P1)
+xlabel('频率/Hz')
+xlim([0,0.5])
+ylabel('频域幅值/nm/s')
 title('dataE ZOZT')
-subplot(3,1,2)
-plot(frequncyN_ZOZT,magnitudeN_ZOZT);
-xlabel('频率')
-title('dataN ZOZT')
-subplot(3,1,3)
-plot(frequncyZ_ZOZT,magnitudeZ_ZOZT);
-xlabel('频率')
-title('dataZ ZOZT')
-
 %% 两个频率分别为15HZ 和 20HZ 的正弦信号[1]
 Fs=100;%采样率
 
