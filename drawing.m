@@ -332,6 +332,124 @@ xlabel('频率/Hz')
 ylabel('频域幅值/nm/s')
 xlim([0,0.5])
 title('dataE XAN')
+%%
+x = dataE_XAN;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataE_XAN_couple = [t,dataE_XAN];
+x = dataE_LANT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataE_LANT_couple = [t,dataE_LANT];
+x = dataE_ZOZT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataE_ZOZT_couple = [t,dataE_ZOZT];
+x = dataE_MEIX;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataE_MEIX_couple = [t,dataE_MEIX];
+
+x = dataN_XAN;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataN_XAN_couple = [t,dataN_XAN];
+x = dataN_LANT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataN_LANT_couple = [t,dataN_LANT];
+x = dataN_ZOZT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataN_ZOZT_couple = [t,dataN_ZOZT];
+x = dataN_MEIX;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataN_MEIX_couple = [t,dataN_MEIX];
+
+x = dataZ_XAN;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataZ_XAN_couple = [t,dataZ_XAN];
+x = dataZ_LANT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataZ_LANT_couple = [t,dataZ_LANT];
+x = dataZ_ZOZT;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataZ_ZOZT_couple = [t,dataZ_ZOZT];
+x = dataZ_MEIX;
+t = (0:1/Fs:length(x)/Fs-1/Fs)';
+dataZ_MEIX_couple = [t,dataZ_MEIX];
+%%
+dataE_XAN_filtered = out.dataE_XAN_filtereded;
+dataE_XAN_filtered = dataE_XAN_filtered(1:length(dataE_XAN));
+dataE_MEIX_filtered = out.dataE_MEIX_filtereded;
+dataE_MEIX_filtered = dataE_MEIX_filtered(1:length(dataE_MEIX));
+dataE_ZOZT_filtered = out.dataE_ZOZT_filtereded;
+dataE_ZOZT_filtered = dataE_ZOZT_filtered(1:length(dataE_ZOZT));
+dataE_LANT_filtered = out.dataE_LANT_filtereded;
+dataE_LANT_filtered = dataE_LANT_filtered(1:length(dataE_LANT));
+
+dataN_XAN_filtered = out.dataN_XAN_filtereded;
+dataN_XAN_filtered = dataN_XAN_filtered(1:length(dataN_XAN));
+dataN_MEIX_filtered = out.dataN_MEIX_filtereded;
+dataN_MEIX_filtered = dataN_MEIX_filtered(1:length(dataN_MEIX));
+dataN_ZOZT_filtered = out.dataN_ZOZT_filtereded;
+dataN_ZOZT_filtered = dataN_ZOZT_filtered(1:length(dataN_ZOZT));
+dataN_LANT_filtered = out.dataN_LANT_filtereded;
+dataN_LANT_filtered = dataN_LANT_filtered(1:length(dataN_LANT));
+
+dataZ_XAN_filtered = out.dataZ_XAN_filtereded;
+dataZ_XAN_filtered = dataZ_XAN_filtered(1:length(dataZ_XAN));
+dataZ_MEIX_filtered = out.dataZ_MEIX_filtereded;
+dataZ_MEIX_filtered = dataZ_MEIX_filtered(1:length(dataZ_MEIX));
+dataZ_ZOZT_filtered = out.dataZ_ZOZT_filtereded;
+dataZ_ZOZT_filtered = dataZ_ZOZT_filtered(1:length(dataZ_ZOZT));
+dataZ_LANT_filtered = out.dataZ_LANT_filtereded;
+dataZ_LANT_filtered = dataZ_LANT_filtered(1:length(dataZ_LANT));
+
+plot(dataE_XAN_filtered)
+title('0.0075Hz高通滤波前后dataE XAN')
+xlabel('时间/0.01s')
+ylabel('速度/nm/s')
+hold on
+plot(dataE_XAN)
+legend('滤波后','滤波前')
+% set(gca,'FontSize',20)
+
+figure
+subplot(3,1,1)
+plot(dataE_XAN_filtered)
+hold on
+plot(dataE_LANT_filtered)
+hold on
+plot(dataE_MEIX_filtered)
+hold on
+plot(dataE_ZOZT_filtered)
+xlabel('时间/0.01s')
+ylabel('速度/nm/s')
+legend('XAN','LANT','MEIX','ZOZT')
+% set(gca,'FontSize',20)
+title('dataE')
+
+subplot(3,1,2)
+plot(dataN_XAN_filtered)
+hold on
+plot(dataN_LANT_filtered)
+hold on
+plot(dataN_MEIX_filtered)
+hold on
+plot(dataN_ZOZT_filtered)
+xlabel('时间/0.01s')
+ylabel('速度/nm/s')
+legend('XAN','LANT','MEIX','ZOZT')
+% set(gca,'FontSize',20)
+title('dataN')
+
+subplot(3,1,3)
+plot(dataZ_XAN_filtered)
+hold on
+plot(dataZ_LANT_filtered)
+hold on
+plot(dataZ_MEIX_filtered)
+hold on
+plot(dataZ_ZOZT_filtered)
+xlabel('时间/0.01s')
+ylabel('速度/nm/s')
+legend('XAN','LANT','MEIX','ZOZT')
+% set(gca,'FontSize',20)
+title('dataZ')
 %% E向ZOZT站
 Fs = 100;               %采样频率，即1s采多少个点
 x = dataE_ZOZT;
