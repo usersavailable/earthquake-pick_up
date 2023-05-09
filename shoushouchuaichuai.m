@@ -380,6 +380,40 @@ xlabel('Time (s)');
 ylabel('Amplitude');
 
 %% 获取完整地震数据
+maindir = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-vel';
+subdir = dir(maindir);
+for k = 1:1
+    subdirpath = fullfile(maindir, subdir(k+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
+    stru = dir(subdirpath);
+    number = 0;
+    eval(['DATA', num2str(k), '= struct();']); % 使用eval和字符串拼接动态生成变量名
+    for j = 1:length(stru)
+        data = struct();
+        number = number+1;
+        path = fullfile(stru(j).folder, stru(j).name);
+        %try
+        [t, data1, hr] = fget_sac(path);
+        % data1 = period_cut(data1,1,1e-4);
+        station = hr.station.kstnm;
+        station = strrep(station,' ','');
+        % time = datenum(hr.event.nzyear, (hr.event.nzjday-mod(hr.event.nzjday,30))./30, mod(hr.event.nzjday,30), hr.event.nzhour, hr.event.nzmin, hr.event.nzsec);
+        % time = datenum(hr.event.nzyear, (hr.event.nzjday-mod(hr.event.nzjday,30))./30, mod(hr.event.nzjday,30));
+        time = strcat(hr.event.nzyear,'年',hr.event.nzjday,'日');
+        direction = hr.stations.kcmpnm;
+        direction = strrep(direction,' ','');
+    
+        
+        data.station = station;
+        data.time = time;
+        data.direction = direction;
+        data.timehistory = data1;
+        % catch ME
+        %     disp(['Error reading file ', path, ': ', ME.message]);
+        %     continue;
+        %end
+        eval(['DATA', num2str(k), '(j).data= data;']);
+    end
+end
 
 %% 读取地震数据的SAC文件β
 maindir1 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-vel';  % 读取速度文件
@@ -404,8 +438,10 @@ for k = 1:1  %5.6.17:13
         newFilename = sprintf('data%s_%s%s', channel, station, '.SAC');
         
         % 构造完整的源文件路径和目标文件路径
-        sourceFile = fullfile(path);
-        targetFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
+        sourceFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
+        sourceFile = fullfile(sourceFolder, fileList(i).name);
+
+        targetFolder = 'C:\Users\wty\Documents\MATLAB\cier\宕机1';
         targetFile = fullfile(targetFolder, newFilename);
         
         % 执行重命名操作
@@ -415,49 +451,53 @@ for k = 1:1  %5.6.17:13
 end
 
 %%
-dataE_LANT = DATA1(8).data.*1e9;
-dataE_XAN = DATA1(15).data.*1e9;
+dataE_LANT = DATA1(8).data.timehistory.*1e9;
+dataE_XAN = DATA1(15).data.timehistory.*1e9;
 dataE_MEIX = 0;
-dataE_ZOZT = DATA1(3).data.*1e9;
+dataE_ZOZT = DATA1(3).data.timehistory.*1e9;
 figure
 plot(dataE_LANT)
-hold on
-plot(dataE_MEIX)
+% hold on
+% plot(dataE_MEIX)
 hold on
 plot(dataE_XAN)
 hold on
 plot(dataE_ZOZT)
 xlabel('时间/0.01s')
 ylabel('速度/nm/s')
+legend('LANT','XAN','ZOZT')
 title('dataE')
-set(gca,'FontSize,20')
+set(gca,'FontSize',20)
 %%
 % 源文件夹路径
 sourceFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
 
 % 目标文件夹路径
-targetFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
+targetFolder = 'C:\Users\wty\Documents\MATLAB\cier\宕机1';
 
 % 获取源文件夹中所有的文件列表
-fileList = dir(sourceFolder);
+cd(sourceFolder)
+fileList = dir('*.SAC');
 
 % 遍历每个文件并重命名
-for i = 1:length(fileList)
+for i = 1:length(fileList)-2
     % 获取文件名（包括扩展名）
-    [~, filename, ext] = fileparts(fileList(i).name);
+    [~, filename, ext] = fileparts(fileList(i+2).name);
     
     % 解析文件名
     parts = strsplit(filename, '.');
-    station = parts{7};
-    channel = parts{9}(2); % 第9个部分的第2个字符
+    station = parts{8};
+    channel = parts{10}(3); % 第9个部分的第2个字符
     
     % 构造新的文件名
     newFilename = sprintf('data%s_%s%s', channel, station, ext);
     
     % 构造完整的源文件路径和目标文件路径
-    sourceFile = fullfile(sourceFolder, fileList(i).name);
+    sourceFile = fullfile(sourceFolder, fileList(i+2).name);
     targetFile = fullfile(targetFolder, newFilename);
-    
+
     % 执行重命名操作
     movefile(sourceFile, targetFile);
 end
+
+%%
