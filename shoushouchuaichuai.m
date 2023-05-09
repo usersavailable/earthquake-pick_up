@@ -156,6 +156,8 @@ for k = 1:length(subdir)-2  %5.6.17:13
     end
 end
 
+%%
+
 
 %% 读取地震数据的SAC文件β2.0
 maindir = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-vel';
@@ -376,3 +378,86 @@ plot(t,y);
 title('滤波后数据');
 xlabel('Time (s)');
 ylabel('Amplitude');
+
+%% 获取完整地震数据
+
+%% 读取地震数据的SAC文件β
+maindir1 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-vel';  % 读取速度文件
+maindir2 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG-disp';  % 读取位移文件
+maindir3 = 'C:\Users\wty\Downloads\百度网盘下载\SAMSUNG28地震_SAC\SAMSUNG - acc';  % 读取加速度文件
+
+subdir = dir(maindir1);
+for k = 1:1  %5.6.17:13
+    subdirpath = fullfile(maindir1, subdir(k+2).name, '*.SAC');  % 注意前两个subdir去掉'.','..'
+    stru = dir(subdirpath);
+    number = 0;
+
+    for j = 1:length(stru)
+        data = struct();
+        number = number+1;
+        path = fullfile(stru(j).folder, stru(j).name);
+        parts = strsplit(path, '.');
+        station = parts{7};
+        channel = parts{9}(2); % 第9个部分的第2个字符
+        
+        % 构造新的文件名
+        newFilename = sprintf('data%s_%s%s', channel, station, '.SAC');
+        
+        % 构造完整的源文件路径和目标文件路径
+        sourceFile = fullfile(path);
+        targetFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
+        targetFile = fullfile(targetFolder, newFilename);
+        
+        % 执行重命名操作
+        movefile(sourceFile, targetFile);
+
+    end
+end
+
+%%
+dataE_LANT = DATA1(8).data.*1e9;
+dataE_XAN = DATA1(15).data.*1e9;
+dataE_MEIX = 0;
+dataE_ZOZT = DATA1(3).data.*1e9;
+figure
+plot(dataE_LANT)
+hold on
+plot(dataE_MEIX)
+hold on
+plot(dataE_XAN)
+hold on
+plot(dataE_ZOZT)
+xlabel('时间/0.01s')
+ylabel('速度/nm/s')
+title('dataE')
+set(gca,'FontSize,20')
+%%
+% 源文件夹路径
+sourceFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
+
+% 目标文件夹路径
+targetFolder = 'C:\Users\wty\Documents\MATLAB\cier\201411221655 _SAC';
+
+% 获取源文件夹中所有的文件列表
+fileList = dir(sourceFolder);
+
+% 遍历每个文件并重命名
+for i = 1:length(fileList)
+    % 获取文件名（包括扩展名）
+    [~, filename, ext] = fileparts(fileList(i).name);
+    
+    % 解析文件名
+    parts = strsplit(filename, '.');
+    station = parts{7};
+    channel = parts{9}(2); % 第9个部分的第2个字符
+    
+    % 构造新的文件名
+    newFilename = sprintf('data%s_%s%s', channel, station, ext);
+    
+    % 构造完整的源文件路径和目标文件路径
+    sourceFile = fullfile(sourceFolder, fileList(i).name);
+    targetFile = fullfile(targetFolder, newFilename);
+    
+    % 执行重命名操作
+    movefile(sourceFile, targetFile);
+end
