@@ -1,6 +1,7 @@
-function [P1,fnew] = flourier(x)
+function [fnew,P1] = flourier(x)
 %UNTITLED 此处显示有关此函数的摘要
 %   此处显示详细说明
+Fs = 100;
 L = length(x);
 y = fft(x);
 f = (0:L-1)*Fs/L;

@@ -618,7 +618,25 @@ P2 = abs(fft(x)/L);
 P1E_ZOZT = P2(1:L/2);
 P1E_ZOZT(2:end-1) = 2*P1E_ZOZT(2:end-1);
 fnewE_ZOZT = (0:(L/2-1))*Fs/L;
- 
+
+x = dataN_LANT_filtered;
+[fnewN_LANT, P1N_LANT] = flourier(x);
+x = dataN_MEIX_filtered;
+[fnewN_MEIX, P1N_MEIX] = flourier(x);
+x = dataN_ZOZT_filtered;
+[fnewN_ZOZT, P1N_ZOZT] = flourier(x);
+x = dataN_XAN_filtered;
+[fnewN_XAN, P1N_XAN] = flourier(x);
+
+x = dataZ_LANT_filtered;
+[fnewZ_LANT, P1Z_LANT] = flourier(x);
+x = dataZ_MEIX_filtered;
+[fnewZ_MEIX, P1Z_MEIX] = flourier(x);
+x = dataZ_ZOZT_filtered;
+[fnewZ_ZOZT, P1Z_ZOZT] = flourier(x);
+x = dataZ_XAN_filtered;
+[fnewZ_XAN, P1Z_XAN] = flourier(x);
+
 figure
 set(gca,'FontSize',20)
 subplot(311)
@@ -640,6 +658,36 @@ xlabel('频率/Hz')
 ylabel('频域幅值/nm/s')
 xlim([0,0.5])
 title('dataE XAN')
+
+subplot(3,1,2)
+plot(fnewN_XAN,P1N_XAN)
+hold on
+plot(fnewN_MEIX,P1N_MEIX)
+hold on
+plot(fnewN_LANT,P1N_LANT)
+hold on
+plot(fnewN_ZOZT,P1N_ZOZT)
+legend('XAN','MEIX','LANT','ZOZT')
+% stem(fnew,P1E_XAN)
+xlabel('频率/Hz')
+ylabel('频域幅值/nm/s')
+xlim([0,0.5])
+title('dataN XAN')
+
+subplot(3,1,3)
+plot(fnewZ_XAN,P1Z_XAN)
+hold on
+plot(fnewZ_MEIX,P1Z_MEIX)
+hold on
+plot(fnewZ_LANT,P1Z_LANT)
+hold on
+plot(fnewZ_ZOZT,P1Z_ZOZT)
+legend('XAN','MEIX','LANT','ZOZT')
+% stem(fnew,P1E_XAN)
+xlabel('频率/Hz')
+ylabel('频域幅值/nm/s')
+xlim([0,0.5])
+title('dataZ XAN')
 %% E向ZOZT站
 Fs = 100;               %采样频率，即1s采多少个点
 x = dataE_ZOZT;
