@@ -23,9 +23,9 @@ while(do == 1)
     parts3 = strsplit(filename3,'.');
     direction3 = parts3{10}(3);
     
-    [~,record1,~] = fget_sac(fullfile(earthquakepath,filename1));
-    [~,record2,~] = fget_sac(fullfile(earthquakepath,filename2));
-    [~,record3,~] = fget_sac(fullfile(earthquakepath,filename3));
+    [~,record1,h1] = fget_sac(fullfile(earthquakepath,filename1));
+    [~,record2,h2] = fget_sac(fullfile(earthquakepath,filename2));
+    [~,record3,h3] = fget_sac(fullfile(earthquakepath,filename3));
     
     figure
     set(gca,'FontSize',20)
@@ -35,7 +35,7 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./100;
             plot(t,eval(strcat('record',num2str(i))))
-            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            % xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
     end
     
@@ -49,7 +49,7 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./100;
             plot(t,eval(strcat('record',num2str(i))))
-            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            % xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
     end
     
@@ -63,7 +63,7 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./100;
             plot(t,eval(strcat('record',num2str(i))))
-            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            % xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
     end
     
@@ -71,7 +71,7 @@ while(do == 1)
     ylabel(type)
     title('BHZ')
 
-    input('是否继续？(1/0)')
+    do = input('是否继续？(1/0)');
 end
 
 
