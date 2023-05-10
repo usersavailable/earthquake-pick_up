@@ -645,13 +645,13 @@ subplot(311)
 % ylabel('时域幅值/nm/s')
 % title('dataE XAN')
 % subplot(212)
-plot(fnewE_XAN,P1E_XAN)
+semilogx(fnewE_XAN,P1E_XAN)
 hold on
-plot(fnewE_MEIX,P1E_MEIX)
+semilogx(fnewE_MEIX,P1E_MEIX)
 hold on
-plot(fnewE_LANT,P1E_LANT)
+semilogx(fnewE_LANT,P1E_LANT)
 hold on
-plot(fnewE_ZOZT,P1E_ZOZT)
+semilogx(fnewE_ZOZT,P1E_ZOZT)
 legend('XAN','MEIX','LANT','ZOZT')
 % stem(fnew,P1E_XAN)
 xlabel('频率/Hz')
@@ -660,13 +660,13 @@ xlim([0,0.5])
 title('dataE XAN')
 
 subplot(3,1,2)
-plot(fnewN_XAN,P1N_XAN)
+semilogx(fnewN_XAN,P1N_XAN)
 hold on
-plot(fnewN_MEIX,P1N_MEIX)
+semilogx(fnewN_MEIX,P1N_MEIX)
 hold on
-plot(fnewN_LANT,P1N_LANT)
+semilogx(fnewN_LANT,P1N_LANT)
 hold on
-plot(fnewN_ZOZT,P1N_ZOZT)
+semilogx(fnewN_ZOZT,P1N_ZOZT)
 legend('XAN','MEIX','LANT','ZOZT')
 % stem(fnew,P1E_XAN)
 xlabel('频率/Hz')
@@ -675,13 +675,13 @@ xlim([0,0.5])
 title('dataN XAN')
 
 subplot(3,1,3)
-plot(fnewZ_XAN,P1Z_XAN)
+semilogx(fnewZ_XAN,P1Z_XAN)
 hold on
-plot(fnewZ_MEIX,P1Z_MEIX)
+semilogx(fnewZ_MEIX,P1Z_MEIX)
 hold on
-plot(fnewZ_LANT,P1Z_LANT)
+semilogx(fnewZ_LANT,P1Z_LANT)
 hold on
-plot(fnewZ_ZOZT,P1Z_ZOZT)
+semilogx(fnewZ_ZOZT,P1Z_ZOZT)
 legend('XAN','MEIX','LANT','ZOZT')
 % stem(fnew,P1E_XAN)
 xlabel('频率/Hz')
@@ -881,3 +881,85 @@ end
 
 %%
 save("DATA_BUDANG.mat","DATA_ACC2","DATA_DISP2","DATA_VEL2")
+
+%% 速度、位移、加速度对比
+pathE_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_vel\20230316085600.seed\LANT\2023.075.00.55.55.8300.SN.LANT.00.BHE.D.SAC';
+pathN_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_vel\20230316085600.seed\LANT\2023.075.00.55.57.4400.SN.LANT.00.BHN.D.SAC';
+pathZ_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_vel\20230316085600.seed\LANT\2023.075.00.55.57.5400.SN.LANT.00.BHZ.D.SAC';
+[~,dataE_SUDU,hr] = fget_sac(pathE_LANT);
+[~,dataN_SUDU,~] = fget_sac(pathN_LANT);
+[~,dataZ_SUDU,~] = fget_sac(pathZ_LANT);
+pathE_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_none\20230316085600.seed\LANT\2023.075.00.55.55.8300.SN.LANT.00.BHE.D.SAC';
+pathN_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_none\20230316085600.seed\LANT\2023.075.00.55.57.4400.SN.LANT.00.BHN.D.SAC';
+pathZ_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_none\20230316085600.seed\LANT\2023.075.00.55.57.5400.SN.LANT.00.BHZ.D.SAC';
+[~,dataE_WEIYI,~] = fget_sac(pathE_LANT);
+[~,dataN_WEIYI,~] = fget_sac(pathN_LANT);
+[~,dataZ_WEIYI,~] = fget_sac(pathZ_LANT);
+pathE_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_acc\20230316085600.seed\LANT\2023.075.00.55.55.8300.SN.LANT.00.BHE.D.SAC';
+pathN_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_acc\20230316085600.seed\LANT\2023.075.00.55.57.4400.SN.LANT.00.BHN.D.SAC';
+pathZ_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_acc\20230316085600.seed\LANT\2023.075.00.55.57.5400.SN.LANT.00.BHZ.D.SAC';
+[~,dataE_JIASUDU,~] = fget_sac(pathE_LANT);
+[~,dataN_JIASUDU,~] = fget_sac(pathN_LANT);
+[~,dataZ_JIASUDU,~] = fget_sac(pathZ_LANT);
+figure
+set(gca,'FontSize',20)
+subplot(3,1,1)
+
+plot(dataE_SUDU)
+hold on
+plot(dataE_WEIYI)
+hold on
+plot(dataE_JIASUDU)
+xlabel('时间/0.01s')
+ylabel('E向速度/位移/加速度')
+legend('速度/nm/s','位移/nm','加速度/nm/s^2')
+title('LANT站E向数据对比')
+
+subplot(3,1,2)
+set(gca,'FontSize',20)
+plot(dataN_SUDU)
+hold on
+plot(dataN_WEIYI)
+hold on
+plot(dataN_JIASUDU)
+xlabel('时间/0.01s')
+ylabel('N向速度/位移/加速度')
+legend('速度/nm/s','位移/nm','加速度/nm/s^2')
+title('LANT站N向数据对比')
+
+subplot(3,1,3)
+set(gca,'FontSize',20)
+plot(dataZ_SUDU)
+hold on
+plot(dataZ_WEIYI)
+hold on
+plot(dataZ_JIASUDU)
+xlabel('时间/0.01s')
+ylabel('Z向速度/位移/加速度')
+legend('速度/nm/s','位移/nm','加速度/nm/s^2')
+title('LANT站Z向数据对比')
+%%
+pathE_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_vel\20230316085600.seed\LANT\2023.075.00.55.55.8300.SN.LANT.00.BHE.D.SAC';
+[~,dataE_SUDU,hr] = fget_sac(pathE_LANT);
+pathE_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_none\20230316085600.seed\LANT\2023.075.00.55.55.8300.SN.LANT.00.BHE.D.SAC';
+[~,dataE_WEIYI,~] = fget_sac(pathE_LANT);
+pathE_LANT = 'C:\Users\wty\Downloads\百度网盘下载\SUMSUNG不宕机数据_SAC\SAC_acc\20230316085600.seed\LANT\2023.075.00.55.55.8300.SN.LANT.00.BHE.D.SAC';
+[~,dataE_JIASUDU,~] = fget_sac(pathE_LANT);
+figure
+set(gca,'FontSize',20)
+title('E向数据对比')
+plot(dataE_SUDU,'r')
+hold on
+plot(dataE_WEIYI,'g')
+hold on
+plot(dataE_JIASUDU,'b')
+xlabel('时间/0.01s')
+ylabel('E向速度/位移/加速度')
+legend('速度/nm/s','位移/nm','加速度/nm/s^2')
+%%
+A = [1,2,3];
+B = [1.1,2.1,3.1];
+figure
+plot(A,'r')
+hold on
+plot(B,'b')
