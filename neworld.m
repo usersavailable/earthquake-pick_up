@@ -27,8 +27,6 @@ while(do == 1)
     record1 = resample(record1,Fs1,Fs);  %对数据进行重采样，采样后数据长度为原来的1/5
     record2 = resample(record2,Fs1,Fs);
     record3 = resample(record3,Fs1,Fs);
-
-
     
 
 

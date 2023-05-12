@@ -125,12 +125,32 @@ for i = 1:length(path1)-2
         [~,record2,h2] = fget_sac(fullfile(path0,path1(i+2).name,path2(j+2).name,filename2));
         [~,record3,h3] = fget_sac(fullfile(path0,path1(i+2).name,path2(j+2).name,filename3));
         
-    
+        % % 基线漂移去趋势项
+        % record1 = detrend(record1);
+        % record2 = detrend(record2);
+        % record3 = detrend(record3);
+
+        %对数据进行重采样，采样后数据长度为原来的1/5
         record1 = resample(record1,Fs1,Fs);  %对数据进行重采样，采样后数据长度为原来的1/5
         record2 = resample(record2,Fs1,Fs);
         record3 = resample(record3,Fs1,Fs);
-    
-    
+        
+        % 调用simulink进行滤波
+        options=simset('SrcWorkspace','current');
+        ts1 = [[0:length(record1)-1]'./Fs1,record1];
+        ts = ts1;
+        sim('jianyilvbo',[0,length(record1)./Fs1],options);
+        record1 = record;
+
+        ts2 = [[0:length(record2)-1]'./Fs1,record2];
+        ts = ts2;
+        sim('jianyilvbo',[0,length(record2)./Fs1],options);
+        record2 = record;
+
+        ts3 = [[0:length(record3)-1]'./Fs1,record3];
+        ts = ts3;
+        sim('jianyilvbo',[0,length(record3)./Fs1],options);
+        record3 = record;
     
     
         % set(gca,'FontSize',20)
