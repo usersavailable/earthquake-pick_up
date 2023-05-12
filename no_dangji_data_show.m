@@ -35,7 +35,7 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./100;
             plot(t,eval(strcat('record',num2str(i))))
-            % xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
     end
     
@@ -49,7 +49,7 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./100;
             plot(t,eval(strcat('record',num2str(i))))
-            % xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
     end
     
@@ -63,7 +63,7 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./100;
             plot(t,eval(strcat('record',num2str(i))))
-            % xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
     end
     
@@ -73,6 +73,9 @@ while(do == 1)
 
     do = input('是否继续？(1/0)');
 end
+
+
+%%
 
 
 %%
