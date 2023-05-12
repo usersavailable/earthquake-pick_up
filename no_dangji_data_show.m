@@ -3,7 +3,7 @@ do = 1;
 while(do == 1)
     earthquakepath = input('请输入文件路径(须带引号)：');
     Fs = 100;
-    Fs1 = 100;
+    Fs1 = 50;
     type = input('请选择数据类型("速度"/"位移"/"加速度")(须带引号)') ;
     
     if strcmp(type,'速度')
@@ -33,7 +33,7 @@ while(do == 1)
     record2 = resample(record2,Fs1,Fs);
     record3 = resample(record3,Fs1,Fs);
 
-    
+
 
     figure
     set(gca,'FontSize',20)
