@@ -43,7 +43,11 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./Fs1;
             plot(t,eval(strcat('record',num2str(i))))
-            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            n1 = length(eval(strcat('record',num2str(i))));
+            if n1 > n
+                n = n1;
+            end
+            xlim([0 t(n)])
         end
     end
     hold on
@@ -59,7 +63,11 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./Fs1;
             plot(t,eval(strcat('record',num2str(i))))
-            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            n1 = length(eval(strcat('record',num2str(i))));
+            if n1 > n
+                n = n1;
+            end
+            xlim([0 t(n)])
         end
     end
     hold on
@@ -75,7 +83,11 @@ while(do == 1)
             t = 1:length(eval(strcat('record',num2str(i))));
             t = t./Fs1;
             plot(t,eval(strcat('record',num2str(i))))
-            xlim([0 t(length(eval(strcat('record',num2str(i)))))])
+            n1 = length(eval(strcat('record',num2str(i))));
+            if n1 > n
+                n = n1;
+            end
+            xlim([0 t(n)])
         end
     end
     hold on
@@ -202,7 +214,7 @@ end
 
 %%
 %% 自动化(懒人式)绘制所有地震时间同一台站的三分向数据波形
-n1 = 1; %预设坐标轴范围
+tn = 1; %预设坐标轴范围
 path0 = input('请输入文件路径(须带引号)：');
 station = input("请输入选用的台站");
 Fs = 100;
@@ -278,7 +290,12 @@ for i = 1:length(path1)-2
                 % t = t./Fs1;
                 t = eval(strcat('t',num2str(k)));
                 plot(t,eval(strcat('record',num2str(k))))
-                xlim([0 t(length(eval(strcat('record',num2str(k)))))])
+                n1 = length(eval(strcat('record',num2str(k))));
+                tn1 = t(n1);
+                if tn1 > tn
+                    tn = tn1;
+                end
+                xlim([0 tn])
             end
         end
         hold on
@@ -295,7 +312,13 @@ for i = 1:length(path1)-2
                 % t = t./Fs1;
                 t = eval(strcat('t',num2str(k)));
                 plot(t,eval(strcat('record',num2str(k))))
-                xlim([0 t(length(eval(strcat('record',num2str(k)))))])
+                n1 = length(eval(strcat('record',num2str(k))));
+
+                tn1 = t(n1);
+                if tn1 > tn
+                    tn = tn1;
+                end
+                xlim([0 tn])
             end
         end
         hold on
@@ -312,7 +335,12 @@ for i = 1:length(path1)-2
                 % t = t./Fs1;
                 t = eval(strcat('t',num2str(k)));
                 plot(t,eval(strcat('record',num2str(k))))
-                xlim([0 t(length(eval(strcat('record',num2str(k)))))])
+                n1 = length(eval(strcat('record',num2str(k))));
+                tn1 = t(n1);
+                if tn1 > tn
+                    tn = tn1;
+                end
+                xlim([0 tn])
             end
         end
         hold on
