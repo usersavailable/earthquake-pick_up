@@ -2,7 +2,8 @@
 do = 1;
 while(do == 1)
     earthquakepath = input('请输入文件路径(须带引号)：');
-    
+    Fs = 100;
+    Fs1 = 100;
     type = input('请选择数据类型("速度"/"位移"/"加速度")(须带引号)') ;
     
     if strcmp(type,'速度')
@@ -27,13 +28,20 @@ while(do == 1)
     [~,record2,h2] = fget_sac(fullfile(earthquakepath,filename2));
     [~,record3,h3] = fget_sac(fullfile(earthquakepath,filename3));
     
+
+    record1 = resample(record1,Fs1,Fs);  %对数据进行重采样，采样后数据长度为原来的1/5
+    record2 = resample(record2,Fs1,Fs);
+    record3 = resample(record3,Fs1,Fs);
+
+    
+
     figure
     set(gca,'FontSize',20)
     subplot(3,1,1)
     for i =1:3
         if eval(strcat('direction',num2str(i))) == 'E'
             t = 1:length(eval(strcat('record',num2str(i))));
-            t = t./100;
+            t = t./Fs1;
             plot(t,eval(strcat('record',num2str(i))))
             xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
@@ -47,7 +55,7 @@ while(do == 1)
     for i =1:3
         if eval(strcat('direction',num2str(i))) == 'N'
             t = 1:length(eval(strcat('record',num2str(i))));
-            t = t./100;
+            t = t./Fs1;
             plot(t,eval(strcat('record',num2str(i))))
             xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
@@ -61,7 +69,7 @@ while(do == 1)
     for i =1:3
         if eval(strcat('direction',num2str(i))) == 'Z'
             t = 1:length(eval(strcat('record',num2str(i))));
-            t = t./100;
+            t = t./Fs1;
             plot(t,eval(strcat('record',num2str(i))))
             xlim([0 t(length(eval(strcat('record',num2str(i)))))])
         end
@@ -76,6 +84,7 @@ end
 
 
 %%
+record1 = resample(record1,1,5);
 
 
 %%

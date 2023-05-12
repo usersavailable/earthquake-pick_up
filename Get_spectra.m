@@ -1,8 +1,8 @@
-function [S_a,S_v,S_d] = Get_spectra(Agt_40s,dt)
+function [S_a,S_v,S_d] = Get_spectra(Accelerate,dt)
 %GET_SPECTRA 此处显示有关此函数的摘要
 %   此处显示详细说明
-time = Agt_40s(:,1);
-Accelerate = Agt_40s(:,2);
+% time = Agt_40s(:,1);
+% Accelerate = Agt_40s(:,2);
 count = length(Accelerate);
 % ***********精确法计算各反应***********
 %初始化各储存向量
